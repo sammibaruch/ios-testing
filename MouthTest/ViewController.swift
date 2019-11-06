@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     
     let trackingView = ARSCNView()
     let mouthPositionLabel = UILabel()
+    let counterLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         view.addSubview(trackingView)
         
         buildMouthLabel()
+        buildCounterLabel()
     }
     
     func buildMouthLabel() {
@@ -47,10 +49,40 @@ class ViewController: UIViewController {
         mouthPositionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
+    func buildCounterLabel() {
+        counterLabel.text = "0"
+        
+        view.addSubview(counterLabel)
+        
+//        counterLabel.translatesAutoresizingMaskIntoConstraints = false;
+//        counterLabel.centerXAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        counterLabel.centerYAnchor.constraint(equalTo: view.topAnchor).isActive = true;
+        
+        counterLabel.frame.origin.y = 0
+        counterLabel.frame.origin.x = self.view.frame.width - counterLabel.frame.width
+    }
+    
     func handleMouth(mouthValue: CGFloat) {
+        var counter = 0
+//        if let counterText = counterLabel.text {
+//            let counterInt:Int? = Int(counterText)
+//            if let counterNum = counterInt {
+//                counter += 1
+//            }
+//        }
         switch mouthValue {
         case _ where mouthValue > 0.3:
             mouthPositionLabel.text = "😮"
+            if let counterText = counterLabel.text {
+                let counterInt:Int? = Int(counterText)
+                if let counterNum = counterInt {
+                    counter = counterNum+1
+                }
+                else {
+                    counter+=1
+                }
+            }
+            counterLabel.text = "\(counter)"
         default:
             mouthPositionLabel.text = "😐"
         }
